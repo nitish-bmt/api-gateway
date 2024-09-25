@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+  import { Controller, Get, UseGuards } from '@nestjs/common';
+  import { AppService } from './app.service';
+  import { Public } from './utils/customDecorator/custom.decorator';
+  import { Verify } from 'crypto';
+import { RolesGuard } from './auth/roles.guard';
 
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+  @UseGuards(RolesGuard)
+  @Controller()
+  export class AppV2Controller {
+    constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+    @Public()
+    @Get()
+    getHelloV2(): string {
+      return this.appService.getHelloV2();
+    }
   }
-}
